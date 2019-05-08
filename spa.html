@@ -35,22 +35,37 @@
 
       // /spa/ 모듈
       // 채팅 슬라이더 기능 제공
-          // 모듈 스코프 변수
-              // 상수 설정
-              // 그 외 나머지 모듈 스코프 변수 선언
+      //
+      var spa = (function ($) {
+        // 모듈 스코프 변수
+        var
+          // 상수 설정
+          configMap = {},
+          // 그 외 나머지 모듈 스코프 변수 선언
+          $chatSlider,
+          toggleSlider, onClickSlider, initModule;
 
-          // DOM 메서드 /toggleSlider/
-          // 슬라이더 높이를 조절
+        // DOM 메서드 /toggleSlider/
+        // 슬라이더 높이를 조절
+        //
+        toggleSlider = function () {
+        };
 
-          // 이벤트 핸들러 /onClickSlider/
-          // 클릭 이벤트를 받고 toggleSlider를 호출
+        // 이벤트 핸들러 /onClickSlider/
+        // 클릭 이벤트를 받고 toggleSlider를 호출
+        //
+        onClickSlider = function (event) {
+        };
 
-          // public 메서드 /initModule/
-          // 초기화 및 슬라이더 기능 설정
-              // HTML을 렌더링
-              // 슬라이더 높이 및 제목 영역 초기화
-              // 사용자 클릭 이벤트와 이벤트 핸들러 바인딩
-
+        // public 메서드 /initModule/
+        // 초기화 및 슬라이더 기능 설정
+        //
+        initModule = function ($container) {
+          // HTML을 렌더링
+          // 슬라이더 높이 및 제목 영역 초기화
+          // 사용자 클릭 이벤트와 이벤트 핸들러 바인딩
+        };
+      }());
       // DOM이 준비되면 SPA를 실행
     </script>
 </head>
