@@ -2,120 +2,23 @@
 <html>
 <head>
     <meta content="text/html" charset="utf-8">
-    <title>SPA 1장 - 1.2.5절</title>
-    <style type="text/css">
-        body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #777;
-        }
-        #spa {
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            bottom: 8px;
-            right: 8px;
-            border-radius: 8px 8px 0 8px;
-            background-color: #fff;
-        }
-        .spa-slider {
-            position: absolute;
-            bottom: 0;
-            right: 2px;
-            width: 300px;
-            height: 16px;
-            cursor: pointer;
-            border-radius: 8px 0 0 0;
-            background-color: #f00;
-        }
-    </style>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript">
-      /* jslint browser: true, continue: true,
-            devel: true, indent: 2, maxerr: 50,
-            newcap: true, nomen: true, plusplus: true,
-            regexp: true, sloppy: true, vars: true,
-            white: true
-      */
-      /* 전역 제이쿼리 */
+    <title>SPA Starter</title>
 
-      // /spa/ 모듈
-      // 채팅 슬라이더 기능을 제공
-      //
-      var spa = (function ($) {
-        // 모듈 스코프 변수 선언
-        var
-          // 상수 설정
-          configMap = {
-            extended_height: 434,
-            extended_title: 'Click to retract',
-            retracted_height: 16,
-            retracted_title: 'Click to extend',
-            template_html: '<div class="spa-slider"><\/div>'
-          },
-          // 그 외 나머지 모듈 스코프 변수를 선언
-          $chatSlider,
-          toggleSlider, onClickSlider, initModule;
+    <!-- stylesheets -->
+    <link rel="stylesheet" href="css/spa.css" type="text/css">
+    <link rel="stylesheet" href="css/spa.shell.css" type="text/css">
 
-        // DOM 메서드 /toggleSlider/
-        // 슬라이더 높이를 조절
-        //
-        toggleSlider = function () {
-          var
-            slider_height = $chatSlider.height();
+    <!-- 서드파티 자바스크립트 -->
+    <script src="js/jq/jquery-1.9.1.js"></script>
+    <script src="js/jq/jquery.uriAnchor-1.1.3.js"></script>
 
-          // 슬라이더가 닫혀 있으면 연다
-          if ( slider_height === configMap.retracted_height ) {
-            $chatSlider
-              .animate({ height: configMap.extended_height })
-              .attr('title', configMap.extended_title);
-            return true;
-          }
-
-          // 슬라이더가 열려 있으면 닫는다
-          else if ( slider_height === configMap.extended_height ) {
-            $chatSlider
-              .animate({ height: configMap.retracted_height })
-              .attr('title', configMap.retracted_title);
-            return true;
-          }
-
-          // 슬라이더 상태가 전환되는 동안에는 아무 일도 하지 않는다
-          return false;
-        };
-
-        // 이벤트 핸들러 /onClickSlider/
-        // 클릭 이벤트를 받고 toggleSlider를 호출
-        //
-        onClickSlider = function (event) {
-          toggleSlider();
-          return false;
-        };
-
-        // public 메서드 /initModule/
-        // 초기화 및 슬라이더 기능 설정
-        //
-        initModule = function ($container) {
-          // HTML을 렌더링
-          $container.html(configMap.template_html);
-          $chatSlider = $container.find('.spa-slider');
-          // 슬라이더 높이 및 제목 영역 초기화
-          // 사용자 클릭 이벤트와 이벤트 핸들러 바인딩
-          $chatSlider
-            .attr('title', configMap.retracted_title)
-            .click(onClickSlider);
-          return true;
-        };
-
-        return { initModule: initModule };
-      }(jQuery));
-
-      // DOM이 준비되면 SPA를 실행
-      //
-      jQuery(document).ready(function () {
-        spa.initModule(jQuery('#spa'));
-      });
+    <!-- 우리 자바스크립트 -->
+    <script src="js/spa.js"></script>
+    <script src="js/spa.shell.js"></script>
+    <script>
+        $(function () {
+            spa.initModule($('#spa'));
+        });
     </script>
 </head>
 <body>
