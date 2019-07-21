@@ -127,7 +127,11 @@ spa.shell = (function () {
 
     //------------------- 이벤트 핸들러 시작 ------------------------
     onClickChat = function (event) {
-        toggleChat(stateMap.is_chat_retracted);
+        if (toggleChat(stateMap.is_chat_retracted)) {
+            $.uriAnchor.setAnchor({
+                chat: (stateMap.is_chat_retracted ? 'open' : 'closed')
+            });
+        }
         return false;
     };
     //------------------- 이벤트 핸들러 끝 ------------------------
@@ -144,7 +148,7 @@ spa.shell = (function () {
         stateMap.is_chat_retracted = true;
         jqueryMap.$chat
             .attr('title', configMap.chat_retracted_title)
-            .click( onClickChat );
+            .click(onClickChat);
     };
     // public 메서드 /initModule/ 끝
 
