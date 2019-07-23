@@ -1,11 +1,20 @@
 <!DOCTYPE html>
+<!--
+    spa.html
+    spa 브라우저 문서
+-->
 <html>
 <head>
+    <!-- ie9 이상의 최신 표준 지원 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta content="text/html" charset="utf-8">
-    <title>SPA Starter</title>
+    <title>SPA Chapter 4</title>
 
-    <!-- stylesheets -->
+    <!-- 서드파티 스타일시트 -->
+
+    <!-- 우리 스타일시트 -->
     <link rel="stylesheet" href="css/spa.css" type="text/css">
+    <link rel="stylesheet" href="css/spa.chat.css" type="text/css">
     <link rel="stylesheet" href="css/spa.shell.css" type="text/css">
 
     <!-- 서드파티 자바스크립트 -->
@@ -14,7 +23,10 @@
 
     <!-- 우리 자바스크립트 -->
     <script src="js/spa.js"></script>
+    <script src="js/spa.util.js"></script>
+    <script src="js/spa.model.js"></script>
     <script src="js/spa.shell.js"></script>
+    <script src="js/spa.chat.js"></script>
     <script>
         $(function () {
             spa.initModule($('#spa'));
