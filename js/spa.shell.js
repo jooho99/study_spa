@@ -277,9 +277,13 @@ spa.shell = (function () {
             .click(onClickChat);
 
         // 우리 스키마를 사용하게끔 uriAnchor를 변경
-        // $.uriAnchor.configModule({
-        //     schema_map: configMap.anchor_schema_map
-        // });
+        $.uriAnchor.configModule({
+            schema_map: configMap.anchor_schema_map
+        });
+
+        // 기능 모듈을 설정 및 초기화
+        spa.chat.configModule({});
+        spa.chat.initModule(jqueryMap.$chat);
 
         // URI 앵커 변경 이벤트를 처리.
         // 이 작업은 모든 기능 모듈이 설정 및 초기화된 후에 수행된다.
