@@ -19,6 +19,7 @@ spa.shell = (function () {
             anchor_schema_map: {
                 chat: {opened: true, closed: true}
             },
+            resize_interval: 200,
             main_html: String() +
                 '<div class="spa-shell-head">' +
                 '<div class="spa-shell-head-logo"></div>' +
@@ -33,12 +34,13 @@ spa.shell = (function () {
                 '<div class="spa-shell-modal"></div>'
         },
         stateMap = {
+            $container: undefined,
             anchor_map: {},
+            resize_idto: undefined
         },
         jqueryMap = {},
-
         copyAnchorMap, setJqueryMap,
-        changeAnchorPart, onHashchange,
+        changeAnchorPart, onHashchange, onResize,
         setChatAnchor, initModule;
     //------------------- 모듈 스코프 변수 끝------------------------
 
@@ -185,6 +187,19 @@ spa.shell = (function () {
         return false;
     };
     // 이벤트 핸들러 /onHashchange/ 끝
+
+    // 이벤트 핸들러 /onResize/ 시작
+    onResize = function () {
+        if (stateMap.resize_idto) { return true; }
+        spa.chat.handleResize();
+        stateMap.resize_idto = setTimeout(
+            function () { stateMap.resize_idto = undefined; },
+            configMap.resize_interval
+        );
+
+        return true;
+    };
+    // 이벤트 핸들러 /onResize/ 끝
     //------------------- 이벤트 핸들러 끝 ------------------------
 
     //------------------- 콜백 시작 ------------------------
@@ -242,6 +257,7 @@ spa.shell = (function () {
         // 이렇게 하지 않으면 페이지 로드 시점에 앵커를 판단하는 데 사용되는
         // 트리거 이벤트를 모듈에서 처리할 수 없게 된다.
         $(window)
+            .bind('resize', onResize)
             .bind('hashchange', onHashchange)
             .trigger('hashchange');
     };
