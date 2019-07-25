@@ -220,7 +220,7 @@ spa.chat = (function () {
         spa.util.setConfigMap({
             input_map: input_map,
             settable_map: configMap.settable_map,
-            configMap: configMap
+            config_map: configMap
         });
         return true;
     };
