@@ -255,6 +255,34 @@ spa.chat = (function () {
     };
     // public 메서드 /initModule/ 끝
 
+    // public 메서드 /removeSlider/ 시작
+    // 목적:
+    //  * chatSlider DOM 엘리먼트 제거
+    //  * 초기 상태로 복원
+    //  * 콜백 및 다른 데이터에 대한 포인터 제거
+    // 인자: 없음
+    // 반환값: true
+    // 예외: 없음
+    //
+    removeSlider = function () {
+        // 초기화 및 상태 복원
+        // DOM 컨테이너 제거. 컨테이너를 제거하면 이벤트 바인딩도 함께 제거된다.
+        if (jqueryMap.$slider) {
+            jqueryMap.$slider.remove();
+            jqueryMap = {};
+        }
+        stateMap.$append_target = null;
+        stateMap.position_type = 'closed';
+
+        // 키 설정 초기화
+        configMap.chat_model = null;
+        configMap.people_model = null;
+        configMap.set_chat_anchor = null;
+
+        return true;
+    };
+    // public 메서드 /removeSlider/ 끝
+
     // public 메서드 반환
     return {
         setSliderPosition: setSliderPosition,
