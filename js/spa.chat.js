@@ -47,10 +47,12 @@ spa.chat = (function () {
             },
             slider_open_time: 250,
             slider_close_time: 250,
-            slider_opened_em: 16,
+            slider_opened_em: 18,
             slider_closed_em: 2,
             slider_opened_title: 'Click to close',
             slider_closed_title: 'Click to open',
+            slider_opened_min_em: 10,
+            window_height_min_em: 20,
 
             chat_model: null,
             people_model: null,
@@ -101,9 +103,15 @@ spa.chat = (function () {
 
     // DOM 메서드 /setPxSizes/ 시작
     setPxSizes = function () {
-        var px_per_em, opened_height_em;
+        var px_per_em, window_height_em, opened_height_em;
         px_per_em = getEmSize(jqueryMap.$slider.get(0));
-        opened_height_em = configMap.slider_opened_em;
+        window_height_em = Math.floor(
+            ($(window).height() / px_per_em) + 0.5
+        );
+        opened_height_em
+            = window_height_em > configMap.window_height_min_em
+            ? configMap.slider_opened_em
+            : configMap.slider_opened_min_em;
         stateMap.px_per_em = px_per_em;
         stateMap.slider_closed_px = configMap.slider_closed_em * px_per_em;
         stateMap.slider_opened_px = opened_height_em * px_per_em;
@@ -282,6 +290,30 @@ spa.chat = (function () {
         return true;
     };
     // public 메서드 /removeSlider/ 끝
+
+    // public 메서드 /handleResize/ 시작
+    // 목적:
+    //  창 리사이즈 이벤트가 일어나면 필요에 따라
+    //  이 모듈에서 제공하는 프레젠테이션을 조정
+    // 행동:
+    //  창 높이나 너비가 최소 크기 미만이면
+    //  줄어든 창 크기에 맞춰 채팅 슬라이더 크기를 변경
+    // 반환값: Boolean
+    //  * false - 리사이즈가 불핑효한 경우
+    //  * true - 리사이즈가 필요한 경우
+    // 예외: 없음
+    //
+    handleResize = function () {
+        // 슬라이더 컨테이너가 없으면 아무 일도 하지 않음
+        if ( ! jqueryMap.$slider) { return false; }
+
+        setPxSizes();
+        if (stateMap.position_type === 'opened') {
+            jqueryMap.$slider.css({ height: stateMap.slider_opened_px });
+        }
+        return true;
+    };
+    // public 메서드 /handleResize/ 끝
 
     // public 메서드 반환
     return {
