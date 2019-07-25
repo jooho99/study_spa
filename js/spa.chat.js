@@ -66,7 +66,9 @@ spa.chat = (function () {
         },
         jqueryMap = {},
         setJqueryMap, getEmSize, setPxSizes, setSliderPosition,
-        onClickToggle, configModule, initModule;
+        onClickToggle, configModule, initModule,
+        removeSlider, handleResize
+    ;
     //------------------- 모듈 스코프 변수 끝------------------------
 
     //------------------- 유틸리티 메서드 시작 ------------------------
@@ -253,10 +255,13 @@ spa.chat = (function () {
     };
     // public 메서드 /initModule/ 끝
 
+    // public 메서드 반환
     return {
         setSliderPosition: setSliderPosition,
         configModule: configModule,
-        initModule: initModule
+        initModule: initModule,
+        removeSlider: removeSlider,
+        handleResize: handleResize
     };
     //------------------- public 메서드 끝 ------------------------
 }());
