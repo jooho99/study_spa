@@ -16,7 +16,7 @@
 
 /*global $, spa, getComputedStyle */
 
-spa.util = (function () {
+spa.util_b = (function () {
     'use strict';
     //------------------- 모듈 스코프 변수 시작 ------------------------
     var
