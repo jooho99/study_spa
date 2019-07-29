@@ -1,0 +1,47 @@
+// chat 객체 API
+// --------------------------
+// chat 객체는 spa.model.chat에서 사용할 수 있다.
+// chat 객체는 채팅 메시지를 관리하기 위한 메서드 및  이벤트를 제공한다.
+// chat 객체의 public 메서드는 다음과 같다.
+//   * join() - 채팅방에 참여한다. 이 루틴에서는
+//     'spa-listchange' 및 'spa-updatechat' 전역 커스텀 이벤트의 발행지를 비롯해
+//     백엔드와의 채팅 프로토콜을 설정한다.
+//     현재 사용자가 익명이면
+//     join()은 작업은 중단하고 false를 반환한다.
+//   * get_chatee() - 사용자가 채팅 중인
+//     Person 객체를 반환한다. 채팅 상대가 없으면 null을 반환한다.
+//   * set_chatee(<person_id>) - 채팅 상대를
+//     person_id로 식별한 사람으로 설정한다.
+//     person_id가 사람들 목록에 존재하지 않으면
+//     채팅 상대(chatee)는 null로 설정된다.
+//     요청한 채팅 상대와 이미 채팅 중이면 false를 반환한다.
+//     이 메서드는 'spa-setchatee' 전역 커스텀 이벤트를 발송한다.
+//   * send_msg(<msg_text>) - 채팅 상대에게 메시지를 발송한다.
+//     이 메서드는 'spa-updatechat' 전역 커스텀 이벤트를 발송한다.
+//     사용자가 익명이거나 채팅 상대가 null이면
+//     작업을 중단하고 false를 반환한다.
+//   * update_avatar(<update_avtr_map>) - update_avtr_map을
+//     백엔드로 전송한다. 이렇게 하면 'spa-listchange' 이벤트가 일어나고,
+//     업데이트된 사람들 목록 및 아바타 정보(Person 객체에 있는 css_map)가 전달된다.
+//     update_avtr_map은 반드시
+//     { person_id : person_id, css_map : css_map } 형식이어야 한다.
+//
+// chat 객체에서 발송하는 전역 커스텀 이벤트는 다음과 같다.
+//   * spa-setchatee - 새 채팅 상대를 설정할 때 발송된다.
+//       { old_chatee : <old_chatee_person_object>,
+//         new_chatee : <new_chatee_person_object>
+//       }
+//     형식의 맵을 데이터로 제공한다.
+//   * spa-listchange - 온라인 상태의 사람 목록의 길이가
+//     바뀌거나(즉, 사람이 채팅에 참여하거나 채팅방에서 나갈 때)
+//     내용이 바뀔 때(즉, 사람의 아바타 상세 정보가 변경될 때) 발송된다.
+//     이 이벤트를 구독하는 구독자는 업데이트된 데이터에 대해
+//     people 모델로부터 people_db를 가져와야 한다.
+//   * spa-updatechat - 새 메시지를 수신하거나 전송할 때 발송된다.
+//       { dest_id : <chatee_id>,
+//         dest_name : <chatee_name>,
+//         sender_id : <sender_id>,
+//         msg_text: <message_content>
+//        }
+//     형식의 맵을 데이터로 제공한다.
+//
