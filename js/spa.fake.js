@@ -62,7 +62,7 @@ spa.fake = (function () {
     };
 
     emit_sio = function (msg_type, data) {
-      var person_map;
+      var person_map, i;
 
       // 3초 대기 후 'adduser' 이벤트에
       // 'userupdate' 콜백으로 응답
@@ -101,6 +101,19 @@ spa.fake = (function () {
           listchange_idto = undefined;
         }
         send_listchange();
+      }
+
+      // 서버로의 'updateavatar' 메시지 및 데이터 전송 스뮬레이션
+      if (msg_type === 'updateavatar' && callback_map.listchange) {
+        // 'listchange' 메시지의 수신 시뮬레이션
+        for (i = 0; i < peopleList.length; i++) {
+          if (peopleList[i]._id === data.person_id) {
+            peopleList[i].css_map = data.css_map;
+            break;
+          }
+        }
+        // 'listchange' 메시지를 위한 콜백을 실행
+        callback_map.listchange([peopleList]);
       }
     };
 
