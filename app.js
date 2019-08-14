@@ -1,5 +1,5 @@
 /*
- * app.js - Basic routing
+ * app.js - 간단한 커넥트 서버
  */
 
 /*jslint         node    : true, continue : true,
@@ -10,15 +10,21 @@
 */
 /*global */
 
-var http, server;
+var
+  connectHello, server,
+  http = require('http'),
+  connect = require('connect'),
 
-http = require('http');
-server = http.createServer(function (request, response) {
-  var response_text = request.url === '/test'
-    ? 'you have hit the test page'
-    : 'Hello World';
-  response.writeHead(200, {'Content-Type': 'text/plain'});
-  response.end(response_text);
-}).listen(3000);
+  app = connect(),
+  bodyText = 'Hello Connect';
 
+connectHello = function (request, response, next) {
+  response.setHeader('content-length', bodyText.length);
+  response.end(bodyText);
+};
+
+app.use(connectHello);
+server = http.createServer(app);
+
+server.listen(3000);
 console.log('Listening on port %d', server.address().port);
