@@ -1,5 +1,5 @@
 /*
- * app.js - 간단한 커넥트 서버
+ * app.js - 로깅을 추가한 간단한 커넥트 서버
  */
 
 /*jslint         node    : true, continue : true,
@@ -14,6 +14,7 @@ var
   connectHello, server,
   http = require('http'),
   connect = require('connect'),
+  logger = require('morgan'),
 
   app = connect(),
   bodyText = 'Hello Connect';
@@ -23,7 +24,9 @@ connectHello = function (request, response, next) {
   response.end(bodyText);
 };
 
-app.use(connectHello);
+app
+  .use(logger('combined'))
+  .use(connectHello);
 server = http.createServer(app);
 
 server.listen(3000);
