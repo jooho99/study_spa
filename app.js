@@ -1,5 +1,5 @@
 /*
- * app.js - Hello World
+ * app.js - Basic logging
  */
 
 /*jslint         node    : true, continue : true,
@@ -14,6 +14,7 @@ var http, server;
 
 http = require('http');
 server = http.createServer(function (request, response) {
+  console.log(request);
   response.writeHead(200, {'Content-Type': 'text/plain'});
   response.end('Hello World');
 }).listen(3000);
