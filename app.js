@@ -1,5 +1,5 @@
 /*
- * app.js - 로깅을 추가한 간단한 커넥트 서버
+ * app.js - 간단한 익스프레스 서버
  */
 
 /*jslint         node    : true, continue : true,
@@ -10,24 +10,26 @@
 */
 /*global */
 
+// ------------ 모듈 스코프 변수 시작 ------------
+'use strict';
 var
-  connectHello, server,
   http = require('http'),
-  connect = require('connect'),
-  logger = require('morgan'),
+  express = require('express'),
 
-  app = connect(),
-  bodyText = 'Hello Connect';
+  app = express(),
+  server = http.createServer(app);
+// ------------ 모듈 스코프 변수 끝 ------------
 
-connectHello = function (request, response, next) {
-  response.setHeader('content-length', bodyText.length);
-  response.end(bodyText);
-};
+// ------------ 서버 설정 시작 ------------
+app.get('/', function(request, response) {
+  response.send('Hello Express');
+});
+// ------------ 서버 설정 끝 ------------
 
-app
-  .use(logger('combined'))
-  .use(connectHello);
-server = http.createServer(app);
-
+// ------------ 서버 구동 시작 ------------
 server.listen(3000);
-console.log('Listening on port %d', server.address().port);
+console.log(
+  'Express server listening on port %d in %s mode',
+  server.address().port, app.settings.env
+);
+// ---------- 서버 구동 끝 ----------
