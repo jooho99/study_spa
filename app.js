@@ -1,5 +1,5 @@
 /*
- * app.js - 범용 라우팅을 지원하는 익스프레스 서버
+ * app.js - 예제 모듈을 갖춘 익스프레스 서버
  */
 
 /*jslint         node    : true, continue : true,
@@ -15,9 +15,11 @@
 var
   http = require('http'),
   express = require('express'),
+  routes = require('./routes'),
 
   app = express(),
   server = http.createServer(app);
+routes();
 // ------------ 모듈 스코프 변수 끝 ------------
 
 // ------------ 서버 설정 시작 ------------
