@@ -49,6 +49,11 @@ app.get('/user/list', function (request, response) {
   response.contentType('json');
   response.send({title: 'user list'});
 });
+
+app.post('/user/create', function (request, response) {
+  response.contentType('json');
+  response.send({'title': 'user created'});
+});
 // ------------ 서버 설정 끝 ------------
 
 // ------------ 서버 구동 시작 ------------
