@@ -1,5 +1,5 @@
 /*
- * app.js - 미들웨어를 갖춘 익스프레스 서버
+ * app.js - 정적 파일을 제공하는 익스프레스 서버
  */
 
 /*jslint         node    : true, continue : true,
@@ -24,6 +24,8 @@ var
 app.configure(function () {
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+  app.use(express.static(__dirname+'/public'));
+  app.use(app.router);
 });
 
 app.configure('development', function() {
@@ -39,7 +41,7 @@ app.configure('production', function() {
 });
 
 app.get('/', function(request, response) {
-  response.send('Hello Express');
+  response.redirect('/spa.html');
 });
 // ------------ 서버 설정 끝 ------------
 
