@@ -54,6 +54,13 @@ app.post('/user/create', function (request, response) {
   response.contentType('json');
   response.send({'title': 'user created'});
 });
+
+app.get('/user/read/:id', function (request, response) {
+  response.contentType('json');
+  response.send({
+    'title': 'user with id ' + request.params.id + ' found'
+  });
+});
 // ------------ 서버 설정 끝 ------------
 
 // ------------ 서버 구동 시작 ------------
