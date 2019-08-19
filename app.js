@@ -1,5 +1,5 @@
 /*
- * app.js - 간단한 익스프레스 서버
+ * app.js - 로킹을 지원하는 간단한 익스프레스 서버
  */
 
 /*jslint         node    : true, continue : true,
@@ -21,6 +21,7 @@ var
 // ------------ 모듈 스코프 변수 끝 ------------
 
 // ------------ 서버 설정 시작 ------------
+app.use(express.logger());
 app.get('/', function(request, response) {
   response.send('Hello Express');
 });
