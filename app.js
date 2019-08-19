@@ -1,5 +1,5 @@
 /*
- * app.js - 정적 파일을 제공하는 익스프레스 서버
+ * app.js - 고급 라우팅을 지원하는 익스프레스 서버
  */
 
 /*jslint         node    : true, continue : true,
@@ -40,8 +40,14 @@ app.configure('production', function() {
   app.use(express.errorHandler());
 });
 
+// 아래에 있는 모든 설정은 라우트 설정이다.
 app.get('/', function(request, response) {
   response.redirect('/spa.html');
+});
+
+app.get('/user/list', function (request, response) {
+  response.contentType('json');
+  response.send({title: 'user list'});
 });
 // ------------ 서버 설정 끝 ------------
 
