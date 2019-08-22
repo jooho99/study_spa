@@ -1,5 +1,5 @@
 /*
- * app.js - 예제 모듈을 갖춘 익스프레스 서버
+ * app.js - 기본 인증을 지원하는 익스프레스 서버
  */
 
 /*jslint         node    : true, continue : true,
@@ -25,6 +25,7 @@ var
 app.configure(function () {
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+  app.use(express.basicAuth('user', 'spa'));
   app.use(express.static(__dirname+'/public'));
   app.use(app.router);
 });
