@@ -21,6 +21,7 @@ var
 
   app = express(),
   server = http.createServer(app),
+  io = socketIo.listen(server),
   countIdx = 0
 ;
 // ------------ 모듈 스코프 변수 끝 ------------
@@ -29,6 +30,7 @@ var
 countUp = function () {
   countIdx++;
   console.log(countIdx);
+  io.sockets.send(countIdx);
 };
 // ------------ 유틸리티 메서드 끝 ------------
 
