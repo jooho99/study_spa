@@ -12,7 +12,20 @@
 
 // ------------ 모듈 스코프 변수 시작 ------------
 'use strict';
-var configRoutes;
+var
+  configRoutes,
+  mongoClient = require('mongodb').MongoClient,
+  url = 'mongodb://localhost:27017',
+  dbName = 'spa';
+
+mongoClient.connect( url, { useNewUrlParser: true }, function(error, client) {
+  if (error) {
+    console.log(error);
+  } else {
+    console.log("connected:" + client);
+    client.close();
+  }
+});
 // ------------ 모듈 스코프 변수 끝 ------------
 
 // ------------ public 메서드 시작 ------------
