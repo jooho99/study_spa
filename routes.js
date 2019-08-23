@@ -17,15 +17,7 @@ var
   MongoClient = require('mongodb').MongoClient,
   assert = require('assert'),
   url = 'mongodb://localhost:27017',
-  dbName = 'spa',
-  client = new MongoClient(url);
-
-client.connect( function(error) {
-  assert.equal(null, error);
-  console.log("Connected correctly to server");
-
-  client.close();
-});
+  dbName = 'spa';
 // ------------ 모듈 스코프 변수 끝 ------------
 
 // ------------ public 메서드 시작 ------------
@@ -40,7 +32,14 @@ configRoutes = function (app, server) {
   });
 
   app.get('/:obj_type/list', function (request, response) {
-    response.send({title: request.params.obj_type + ' list'});
+    MongoClient.connect(url, {}, function (outer_error, client) {
+      assert.equal(null, outer_error);
+      client.db(dbName).collection('user').find().toArray(function(inner_error, map_list) {
+        assert.equal(null, inner_error);
+        client.close();
+        response.send(map_list);
+      });
+    });
   });
 
   app.post('/:obj_type/create', function (request, response) {
