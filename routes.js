@@ -10,21 +10,21 @@
 */
 /*global */
 
-// ------------ 모듈 스코프 변수 시작 ------------
+// ------------ 모듈 스코프 변수 시작 -----------
 'use strict';
 var
   configRoutes,
-  mongoClient = require('mongodb').MongoClient,
+  MongoClient = require('mongodb').MongoClient,
+  assert = require('assert'),
   url = 'mongodb://localhost:27017',
-  dbName = 'spa';
+  dbName = 'spa',
+  client = new MongoClient(url);
 
-mongoClient.connect( url, { useNewUrlParser: true }, function(error, client) {
-  if (error) {
-    console.log(error);
-  } else {
-    console.log("connected:" + client);
-    client.close();
-  }
+client.connect( function(error) {
+  assert.equal(null, error);
+  console.log("Connected correctly to server");
+
+  client.close();
 });
 // ------------ 모듈 스코프 변수 끝 ------------
 
