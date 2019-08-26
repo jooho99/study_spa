@@ -19,7 +19,8 @@ var
   MongoClient = mongodb.MongoClient,
   makeMongoId = mongodb.ObjectID,
   url = 'mongodb://localhost:27017',
-  dbName = 'spa';
+  dbName = 'spa',
+  objTypeMap = {'user': {}};
 
 // ------------ 모듈 스코프 변수 끝 ------------
 
@@ -31,7 +32,12 @@ configRoutes = function (app, server) {
 
   app.all('/:obj_type/*?', function (request, response, next) {
     response.contentType('json');
-    next();
+    if (objTypeMap[request.params.obj_type]) {
+      next();
+    } else {
+      response.send({ error_msg: request.params.obj_type
+        + ' is not a valid object type'});
+    }
   });
 
   app.get('/:obj_type/list', function (request, response) {
