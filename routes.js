@@ -13,8 +13,9 @@
 // ------------ 모듈 스코프 변수 시작 -----------
 'use strict';
 var
-  configRoutes,
+  loadSchema, configRoutes,
   mongodb = require('mongodb'),
+  fsHandle = require('fs'),
   assert = require('assert'),
   MongoClient = mongodb.MongoClient,
   makeMongoId = mongodb.ObjectID,
@@ -23,6 +24,14 @@ var
   objTypeMap = {'user': {}};
 
 // ------------ 모듈 스코프 변수 끝 ------------
+
+// ------------ 유틸리티 메서드 시작 -----------
+loadSchema = function (schema_name, schema_path) {
+  fsHandle.readFile(schema_path, 'utf8', function (err, data) {
+    objTypeMap[schema_name] = JSON.parse(data);
+  });
+};
+// ------------ 유틸리티 메서드 끝 -----------
 
 // ------------ public 메서드 시작 ------------
 configRoutes = function (app, server) {
@@ -112,3 +121,16 @@ configRoutes = function (app, server) {
 
 module.exports = { configRoutes: configRoutes };
 // ------------ public 메서드 끝 ------------
+
+// ------------ 모듈 초기화 시작 ------------
+// 스키마를 메모리(objTypeMap)로 로드
+(function () {
+  var schema_name, schema_path;
+  for (schema_name in objTypeMap) {
+    if (objTypeMap.hasOwnProperty(schema_name)) {
+      schema_path = __dirname + '/' + schema_name + '.json';
+      loadSchema(schema_name, schema_path);
+    }
+  }
+}());
+// ------------ 모듈 초기화 끝 ------------
