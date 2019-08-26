@@ -17,7 +17,7 @@
     },
     "css_map": {
       "type": "object",
-      "addtionalProperties": false,
+      "additionalProperties": false,
       "properties": {
         "background-color": {
           "required": true,
