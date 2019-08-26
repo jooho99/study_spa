@@ -13,10 +13,12 @@
 // ------------ 모듈 스코프 변수 시작 -----------
 'use strict';
 var
-  loadSchema, configRoutes,
+  loadSchema, checkSchema, configRoutes,
   mongodb = require('mongodb'),
   fsHandle = require('fs'),
+  JSV = require('JSV').JSV,
   assert = require('assert'),
+  validator = JSV.createEnvironment(),
   MongoClient = mongodb.MongoClient,
   makeMongoId = mongodb.ObjectID,
   url = 'mongodb://localhost:27017',
@@ -30,6 +32,13 @@ loadSchema = function (schema_name, schema_path) {
   fsHandle.readFile(schema_path, 'utf8', function (err, data) {
     objTypeMap[schema_name] = JSON.parse(data);
   });
+};
+
+checkSchema = function (obj_type, obj_map, callback) {
+  var
+    schema_map = objTypeMap[obj_type],
+    report_map = validator.validate(obj_map, schema_map);
+  callback(report_map.errors);
 };
 // ------------ 유틸리티 메서드 끝 -----------
 
