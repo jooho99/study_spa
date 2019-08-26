@@ -61,11 +61,8 @@ configRoutes = function (app, server) {
   app.get('/:obj_type/list', function (request, response) {
     MongoClient.connect(url, {}, function (outer_error, client) {
       assert.equal(null, outer_error);
-      client
-        .db(dbName)
-        .collection(request.params.obj_type)
-        .find()
-        .toArray(function(inner_error, map_list) {
+      client.db(dbName).collection(request.params.obj_type)
+        .find().toArray(function(inner_error, map_list) {
           assert.equal(null, inner_error);
           client.close();
           response.send(map_list);
@@ -74,25 +71,41 @@ configRoutes = function (app, server) {
   });
 
   app.post('/:obj_type/create', function (request, response) {
-    MongoClient.connect(url, {}, function (outer_error, client) {
-      assert.equal(null, outer_error);
-      client
-        .db(dbName)
-        .collection(request.params.obj_type)
-        .insertOne(request.body, function (inner_error, result_map) {
-          client.close();
-          response.send(result_map);
-        });
-    });
+    var
+      obj_type = request.params.obj_type,
+      obj_map = request.body;
+
+    checkSchema(
+      obj_type, obj_map,
+      function (error_list) {
+        if (error_list.length === 0) {
+          MongoClient.connect(url, {}, function (outer_error, client) {
+            assert.equal(null, outer_error);
+            client.db(dbName).collection(obj_type)
+              .insertOne(obj_map, function (inner_error, result_map) {
+                client.close();
+                response.send(result_map);
+              });
+          });
+        } else {
+          response.send({
+            error_msg: 'Input document not valid',
+            error_list: error_list
+          });
+        }
+      }
+    );
   });
 
   app.get('/:obj_type/read/:id', function (request, response) {
+    var
+      find_map = {_id: makeMongoId(request.params.id)},
+      obj_type = request.params.obj_type;
+
     MongoClient.connect(url, {}, function(outer_error, client) {
       assert.equal(null, outer_error);
-      client
-        .db(dbName)
-        .collection(request.params.obj_type)
-        .findOne({_id: makeMongoId(request.params.id)}, function (inner_error, result_map) {
+      client.db(dbName).collection(obj_type)
+        .findOne(find_map, function (inner_error, result_map) {
           client.close();
           response.send(result_map);
         });
@@ -100,28 +113,42 @@ configRoutes = function (app, server) {
   });
 
   app.post('/:obj_type/update/:id', function (request, response) {
-    MongoClient.connect(url, {}, function (outer_error, client) {
-      assert.equal(null, outer_error);
-      client
-        .db(dbName)
-        .collection(request.params.obj_type)
-        .updateOne(
-          {_id: makeMongoId(request.params.id)}
-          ,{$set: request.body}
-          ,function (inner_error, result_map) {
-            client.close();
-            response.send(result_map);
+    var
+      find_map = {_id: makeMongoId(request.params.id)},
+      obj_type = request.params.obj_type,
+      obj_map = request.body;
+
+    checkSchema(
+      obj_type, obj_map,
+      function (error_list) {
+        if (error_list.length === 0) {
+          MongoClient.connect(url, {}, function (outer_error, client) {
+            assert.equal(null, outer_error);
+            client.db(dbName).collection(obj_type)
+              .updateOne(find_map,{$set: obj_map},function (inner_error, result_map) {
+                client.close();
+                response.send(result_map);
+              });
           });
-    });
+        } else {
+          response.send({
+            error_msg: 'Input document not valid',
+            error_list: error_list
+          });
+        }
+      }
+    );
   });
 
   app.get('/:obj_type/delete/:id', function (request, response) {
+    var
+      find_map = {_id: makeMongoId(request.params.id)},
+      obj_type = request.params.obj_type;
+
     MongoClient.connect(url, {}, function(outer_error, client) {
       assert.equal(null, outer_error);
-      client
-        .db(dbName)
-        .collection(request.params.obj_type)
-        .deleteOne({_id: makeMongoId(request.params.id)}, function (inner_error, delete_count) {
+      client.db(dbName).collection(obj_type)
+        .deleteOne(find_map, function (inner_error, delete_count) {
           response.send({delete_count: delete_count});
         });
     });
